@@ -71,10 +71,10 @@ export default function LoginPage() {
 
         <div className="animate-fade-up">
           <h1 className="font-serif text-[32px] leading-tight text-ink mb-2">
-            Welcome back.
+            Sign up or log in.
           </h1>
           <p className="text-[15px] text-ink-soft mb-8">
-            Enter your email — we&apos;ll send you a link to log in.
+            Enter your email — we&apos;ll send you a magic link. No password needed.
           </p>
 
           <form onSubmit={sendMagicLink} className="space-y-4">

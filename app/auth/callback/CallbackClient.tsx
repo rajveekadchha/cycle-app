@@ -1,33 +1,26 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
 
 export default function CallbackClient() {
   const router = useRouter();
-  const params = useSearchParams();
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const tokenHash = params.get("token_hash");
-    const type = params.get("type") as "magiclink" | "email" | null;
-
-    if (!tokenHash || !type) {
-      setError("Invalid or expired link. Please request a new one.");
-      return;
-    }
-
+    // Supabase JS automatically parses #access_token from the URL hash on init.
+    // getSession() returns that session if the hash was valid.
     getSupabaseBrowser()
-      .auth.verifyOtp({ token_hash: tokenHash, type })
-      .then(({ error }) => {
-        if (error) {
-          setError("This link has expired. Please request a new one.");
-        } else {
+      .auth.getSession()
+      .then(({ data: { session } }) => {
+        if (session) {
           router.replace("/onboard");
+        } else {
+          setError("Invalid or expired link. Please request a new one.");
         }
       });
-  }, [params, router]);
+  }, [router]);
 
   if (error) {
     return (

@@ -32,6 +32,12 @@ export default function Nav() {
           FAQ
         </a>
         <a
+          href="/login"
+          className="text-ink-soft hover:text-wine transition-colors"
+        >
+          Log in
+        </a>
+        <a
           href="#join"
           className="bg-ink text-cream px-[18px] py-2.5 rounded-full font-medium hover:bg-wine transition-colors"
         >
