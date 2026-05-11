@@ -69,7 +69,7 @@ export default function WaitlistForm({
       {variant === "hero" && (
         <p className="mt-4 text-[13px] text-ink-soft animate-fade-up [animation-delay:0.65s] opacity-0">
           <strong className="text-wine font-medium">
-            Free for a year for the first 10 founding members.
+            Free for 2 months for the first 10 founding members.
           </strong>
           &nbsp;After that, ₹99/month.
         </p>

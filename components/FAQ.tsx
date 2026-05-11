@@ -1,7 +1,7 @@
 const faqs = [
   {
     q: "Do I need a separate app?",
-    a: "No. Cycle lives entirely on WhatsApp. The cart it preps lives in your existing Swiggy Instamart app. That's it — no install, no dashboard.",
+    a: "No. Cycle works entirely over email. The cart it preps lives in your existing Swiggy Instamart app. No install, no dashboard, nothing new to open.",
   },
   {
     q: "Will it auto-charge me for groceries?",
@@ -9,15 +9,15 @@ const faqs = [
   },
   {
     q: "What if my cycle is irregular?",
-    a: 'Cycle predicts a window — say, "likely Wed to Fri" — not an exact date. After 2–3 logged cycles it adapts to your specific rhythm. You can also adjust it manually anytime by replying to any message.',
+    a: 'Cycle predicts a window — say, "likely Wed to Fri" — not an exact date. After 2–3 cycles it adapts to your specific rhythm and gets more accurate over time.',
   },
   {
-    q: "Can I change brands or items?",
-    a: "Reply EDIT to any prep message and tell us what to change. Cycle remembers and updates your defaults — so next time, the right brand is already in.",
+    q: "Can I change what's in my cart?",
+    a: "Yes — you can update your preferences anytime from your account. Whatever you set is what gets prepped next time.",
   },
   {
     q: "Why ₹99/month — what am I paying for?",
-    a: "The prediction, the WhatsApp service, and the cart-prep happen on our end. You still pay Instamart for groceries separately. The fee covers the agent. Founding members keep this free for a year.",
+    a: "The prediction and the cart-prep happen on our end. You still pay Instamart for groceries separately. The ₹99 covers the service. Founding members keep this free for 2 months.",
   },
 ];
 

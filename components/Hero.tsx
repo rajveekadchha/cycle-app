@@ -40,9 +40,9 @@ export default function Hero() {
       </h1>
 
       <p className="text-[19px] leading-[1.5] text-ink-soft max-w-[48ch] mb-12 animate-fade-up [animation-delay:0.35s] opacity-0">
-        Cycle learns your rhythm. Two days before your period, it preps your
-        Instamart cart with the brands you actually use. You open the app, glance,
-        tap pay. That&apos;s the whole product.
+        Cycle learns your rhythm. Two days before your period, it sends you an
+        email — your Instamart cart already prepped with everything you need.
+        You tap, pay. That&apos;s the whole product.
       </p>
 
       <div className="animate-fade-up [animation-delay:0.5s] opacity-0">

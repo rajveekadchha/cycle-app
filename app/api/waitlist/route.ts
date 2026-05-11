@@ -67,7 +67,7 @@ export async function POST(req: Request) {
       position,
       founding: isFounding,
       message: isFounding
-        ? `You're #${position} of the first 10 founding members. Free for a year.`
+        ? `You're #${position} of the first 10 founding members. Free for 2 months.`
         : "You're on the waitlist. We'll be in touch when access opens.",
     });
   } catch (err) {

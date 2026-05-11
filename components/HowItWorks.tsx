@@ -1,23 +1,23 @@
 const steps = [
   {
     label: "Tell us once",
-    title: "Your last period, your usual brands.",
-    body: "One short conversation on WhatsApp. Brand of pads, painkiller you trust, comfort foods. Two minutes.",
+    title: "Set up in two minutes.",
+    body: "Tell us your last period date, cycle length, and what you usually need. That's it. We take it from here.",
   },
   {
     label: "We watch the calendar",
     title: "You forget. We don't.",
-    body: "Cycle learns your rhythm over a few months and gets sharper each cycle. Never spammy.",
+    body: "Cycle tracks your rhythm quietly in the background. No check-ins. No notifications. Just waiting.",
   },
   {
     label: "Two days early",
-    title: '"Want me to prep your kit?"',
-    body: "One WhatsApp. Same brands as last time, plus anything you mentioned craving. Reply YES, EDIT, or SKIP.",
+    title: "An email lands in your inbox.",
+    body: "We send you a heads up with your Instamart cart already prepped — everything you need, ready to go.",
   },
   {
     label: "You tap pay",
-    title: "Cart's ready in your Instamart.",
-    body: "We never touch your money. You open the app, see everything sitting there, pay. Delivered in 25 minutes.",
+    title: "Cart's ready in Instamart.",
+    body: "We never touch your money. Click the link, see everything sitting there, pay. Delivered in 25 minutes.",
   },
 ];
 

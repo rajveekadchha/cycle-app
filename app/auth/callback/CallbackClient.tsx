@@ -9,16 +9,36 @@ export default function CallbackClient() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    // Supabase JS automatically parses #access_token from the URL hash on init.
-    // getSession() returns that session if the hash was valid.
-    getSupabaseBrowser()
-      .auth.getSession()
-      .then(({ data: { session } }) => {
-        if (session) {
-          router.replace("/onboard");
-        } else {
-          setError("Invalid or expired link. Please request a new one.");
+    const supabase = getSupabaseBrowser();
+
+    // Parse #access_token and #refresh_token from the URL hash directly.
+    // This is more reliable than relying on the singleton client's auto-detection,
+    // which only runs when the client is first created.
+    const hash = window.location.hash.substring(1);
+    const params = new URLSearchParams(hash);
+    const accessToken = params.get("access_token");
+    const refreshToken = params.get("refresh_token");
+
+    if (!accessToken || !refreshToken) {
+      setError("Invalid or expired link. Please request a new one.");
+      return;
+    }
+
+    supabase.auth
+      .setSession({ access_token: accessToken, refresh_token: refreshToken })
+      .then(async ({ data: { session }, error: sessionError }) => {
+        if (sessionError || !session) {
+          setError("This link has expired. Please request a new one.");
+          return;
         }
+
+        const { data: profile } = await supabase
+          .from("users")
+          .select("onboarded")
+          .eq("id", session.user.id)
+          .single();
+
+        router.replace(profile?.onboarded ? "/dashboard" : "/onboard");
       });
   }, [router]);
 

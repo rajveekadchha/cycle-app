@@ -13,7 +13,7 @@ export default function Founders() {
           10
         </div>
         <div className="font-serif italic text-[18px] text-ink-soft mb-8">
-          founding members. free for a year.
+          founding members. free for 2 months.
         </div>
         <h2 className="font-serif text-[clamp(28px,3.5vw,40px)] font-normal tracking-[-0.02em] leading-tight mb-5">
           Be one of the first ten women to never run out again.
