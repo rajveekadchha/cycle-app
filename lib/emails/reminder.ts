@@ -1,27 +1,6 @@
-const PRODUCTS = [
-  {
-    name: "Sanitary Pads",
-    url: "https://www.swiggy.com/instamart/search?query=Sanitary+Pads",
-  },
-  {
-    name: "Period Pain Relief",
-    url: "https://www.swiggy.com/instamart/search?query=period+pain",
-  },
-  {
-    name: "Hot water bag",
-    url: "https://www.swiggy.com/instamart/search?query=hot+water+bag",
-  },
-  {
-    name: "Dark chocolate",
-    url: "https://www.swiggy.com/instamart/search?query=dark+chocolate",
-  },
-  {
-    name: "Chamomile tea",
-    url: "https://www.swiggy.com/instamart/search?query=chamomile+tea",
-  },
-];
+import { PERIOD_KIT_ITEMS as PRODUCTS } from "@/lib/cart-items";
 
-export function buildReminderEmail(name: string) {
+export function buildReminderEmail(name: string, cartUrl: string) {
   const firstName = name.split(" ")[0];
 
   const productRows = PRODUCTS.map(
@@ -76,6 +55,16 @@ export function buildReminderEmail(name: string) {
             </td>
           </tr>
 
+          <!-- CTA -->
+          <tr>
+            <td align="center" style="padding-bottom: 32px;">
+              <a href="${cartUrl}"
+                 style="display: inline-block; background: #6e1f3a; color: #f5efe6; font-size: 15px; font-weight: 500; text-decoration: none; padding: 16px 32px; border-radius: 999px; font-family: 'Inter Tight', system-ui, sans-serif;">
+                Prepare my cart →
+              </a>
+            </td>
+          </tr>
+
           <!-- Products -->
           <tr>
             <td style="background: #ffffff; border-radius: 16px; padding: 8px 24px;">
@@ -104,7 +93,9 @@ export function buildReminderEmail(name: string) {
 
   const text = `Hi ${firstName},
 
-Your period is in 2 days. Here's what we'd suggest picking up from Instamart:
+Your period is in 2 days. Prepare your cart: ${cartUrl}
+
+Or grab items individually from Instamart:
 
 ${PRODUCTS.map((p) => `- ${p.name}: ${p.url}`).join("\n")}
 

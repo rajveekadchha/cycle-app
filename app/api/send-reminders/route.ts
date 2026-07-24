@@ -20,7 +20,8 @@ export async function GET(req: Request) {
   }
 
   const resend = new Resend(process.env.RESEND_API_KEY);
-  const { html, text } = buildReminderEmail(name);
+  const cartUrl = `${new URL(req.url).origin}/cart`;
+  const { html, text } = buildReminderEmail(name, cartUrl);
 
   await resend.emails.send({
     from: "Cycle <onboarding@resend.dev>",
@@ -43,6 +44,7 @@ export async function POST(req: Request) {
   const resend = new Resend(process.env.RESEND_API_KEY);
   const supabase = getSupabaseAdmin();
   const today = new Date().toISOString().split("T")[0];
+  const cartUrl = `${new URL(req.url).origin}/cart`;
 
   // Fetch all onboarded users.
   const { data: users, error } = await supabase
@@ -70,7 +72,7 @@ export async function POST(req: Request) {
 
   const results = await Promise.allSettled(
     due.map(async (u) => {
-      const { html, text } = buildReminderEmail(u.name ?? "there");
+      const { html, text } = buildReminderEmail(u.name ?? "there", cartUrl);
       await resend.emails.send({
         from: "Cycle <onboarding@resend.dev>",
         to: u.email,
