@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
+import { predictNextPeriod } from "@/lib/predict";
 
 type Profile = {
   name: string;
@@ -12,26 +14,12 @@ type Profile = {
   address: string;
 };
 
-function predictNextPeriod(lastPeriodDate: string, cycleLength: number) {
-  const last = new Date(lastPeriodDate);
-  const next = new Date(last);
-  next.setDate(last.getDate() + cycleLength);
-
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  next.setHours(0, 0, 0, 0);
-
-  const daysUntil = Math.round((next.getTime() - today.getTime()) / 86400000);
-
-  return { next, daysUntil };
-}
-
 export default function DashboardPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
-  const [saved, setSaved] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
   const [profile, setProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
@@ -63,7 +51,6 @@ export default function DashboardPage() {
     if (!profile) return;
     setSaving(true);
     setError("");
-    setSaved(false);
 
     try {
       const supabase = getSupabaseBrowser();
@@ -84,8 +71,19 @@ export default function DashboardPage() {
         .eq("id", user.id);
 
       if (error) throw error;
-      setSaved(true);
-      setTimeout(() => setSaved(false), 2500);
+
+      const { next } = predictNextPeriod(profile.last_period_date, profile.cycle_length);
+      fetch("/api/send-confirmation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: profile.email,
+          name: profile.name,
+          nextPeriodLabel: next.toLocaleDateString("en-IN", { day: "numeric", month: "long" }),
+        }),
+      }).catch(() => {});
+
+      setConfirmed(true);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Couldn't save. Try again.");
     } finally {
@@ -107,6 +105,40 @@ export default function DashboardPage() {
   }
 
   const { next, daysUntil } = predictNextPeriod(profile.last_period_date, profile.cycle_length);
+
+  if (confirmed) {
+    return (
+      <main className="min-h-screen flex items-center justify-center px-6">
+        <div className="w-full max-w-sm text-center animate-fade-up">
+          <div className="w-14 h-14 rounded-full bg-wine/10 flex items-center justify-center mx-auto mb-6">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-wine">
+              <path d="M20 6 9 17l-5-5" />
+            </svg>
+          </div>
+          <h1 className="font-serif text-[32px] leading-tight text-ink mb-3">
+            You&apos;re all set.
+          </h1>
+          <p className="text-[15px] text-ink-soft mb-8">
+            We&apos;ll remind you and prep your cart 2 days before{" "}
+            {next.toLocaleDateString("en-IN", { day: "numeric", month: "long" })} —
+            your next predicted period.
+          </p>
+          <Link
+            href="/"
+            className="inline-block w-full py-4 bg-wine text-cream rounded-full text-[15px] font-medium hover:bg-wine-deep active:scale-[0.98] transition-all mb-4"
+          >
+            Back to website
+          </Link>
+          <button
+            onClick={() => setConfirmed(false)}
+            className="text-[13px] text-ink-soft hover:text-ink transition-colors"
+          >
+            ← edit details
+          </button>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen flex items-center justify-center px-6 py-16">
@@ -200,7 +232,7 @@ export default function DashboardPage() {
             disabled={saving}
             className="w-full py-4 bg-wine text-cream rounded-full text-[15px] font-medium hover:bg-wine-deep active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {saving ? "Saving…" : saved ? "Saved ✓" : "Save changes"}
+            {saving ? "Saving…" : "Save changes"}
           </button>
 
           <button

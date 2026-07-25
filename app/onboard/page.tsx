@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
+import { predictNextPeriod } from "@/lib/predict";
 
 const STEPS = ["name", "period", "cycle", "address"] as const;
 type Step = (typeof STEPS)[number];
@@ -58,6 +59,18 @@ export default function OnboardPage() {
         });
 
       if (error) throw error;
+
+      const { next } = predictNextPeriod(lastPeriodDate, cycleLength);
+      fetch("/api/send-confirmation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: user.email,
+          name: name.trim(),
+          nextPeriodLabel: next.toLocaleDateString("en-IN", { day: "numeric", month: "long" }),
+        }),
+      }).catch(() => {});
+
       router.replace("/dashboard");
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Something went wrong. Try again.");

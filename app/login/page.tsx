@@ -93,7 +93,7 @@ export default function LoginPage() {
             Sign up or log in.
           </h1>
           <p className="text-[15px] text-ink-soft mb-8">
-            Enter your email — we&apos;ll send you a magic link. No password needed.
+            How would you like to continue?
           </p>
 
           <button
@@ -113,7 +113,7 @@ export default function LoginPage() {
 
           <div className="flex items-center gap-4 mb-6">
             <div className="flex-1 h-px bg-line" />
-            <span className="text-[12px] text-ink-soft">or</span>
+            <span className="text-[12px] text-ink-soft">or email me a login link</span>
             <div className="flex-1 h-px bg-line" />
           </div>
 
